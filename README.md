@@ -1,28 +1,22 @@
-# AIYOU! Retro — v1.0 prototype
+# AIYOU! Retro v1.2 — Console UI and Startup Diagnostics
 
-Static GitHub + Cloudflare Pages deployable emulator frontend for user-supplied `.gb`, `.gbc`, `.gba`, `.nds` files.
+## Deployment (Cloudflare Pages via GitHub)
 
-## Deployment (no terminal needed)
-1. Create a **public or private** GitHub repository (e.g. `aiyou-retro`).
-2. Upload **all files in this folder to the repository root**: `index.html`, `play.html`, `style.css`, `db.js`, `library.js`, `player.js`, `manifest.webmanifest`, `README.md`. No nested folders, build command, dependencies, D1 database or API keys.
-3. Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git → select repository.
-4. Framework preset: **None**; build command: **leave blank**; output directory: **/** (repository root). If Cloudflare requires an output directory, use `.`.
-5. Deploy. Open the generated `*.pages.dev` URL using Safari.
-6. Import a ROM you are legally permitted to use. Tap Play; on the player page, tap the emulator's Start/Play button to allow iOS audio.
+This is a static website. Unzip and upload ALL files to the **root** of your existing GitHub repository (not a nested folder). Overwrite files with the same names and add `console.css`. Cloudflare Pages automatically redeploys after a commit if connected to GitHub. Pages build settings: Framework **None**, build command **blank**, output directory **`.`**. No D1 database or API key required.
 
-## Implemented
-- Local IndexedDB ROM library (files stay in the browser)
-- GB/GBC, GBA, DS game launching using EmulatorJS stable CDN and browser-compatible cores
-- Sound via emulation engine (requires user interaction on iOS)
-- EmulatorJS built-in on-screen controls, cheats, save tools, and gamepad settings (dependent on engine/core)
-- Authentic Console and Fullscreen Play layout modes
+## What is implemented
+- Browser ROM library (GB, GBC, GBA, NDS), retaining original IndexedDB `aiyou-retro-v1` database.
+- Console-inspired AIYOU! styling for GBC/GBA/DS and Fullscreen Play mode.
+- EmulatorJS loader integration, audio activation via a user tap, built-in emulator controls and save tools (where supported by the loaded core).
+- Visible loader diagnostics and retry guidance.
+- Original, non-Pokémon AIYOU! app icon.
 
-## Not implemented / not yet verified
-- Real original-protocol GB/GBC/GBA link cable, trading or battling; room codes and networking
-- DS wireless multiplayer
-- End-to-end physical iPhone runtime test and save persistence verification
-- Custom console-perfect controller skin (built-in emulator touch controls are used; shell is cosmetic)
-- Offline play: engine assets load from EmulatorJS CDN
+## Important limitations
+- **NOT VERIFIED:** Gameplay and save persistence on a physical iPhone. The EmulatorJS core is fetched at runtime from its public CDN and can fail because of CDN availability, browser limits, core compatibility or content blockers.
+- The shell D-pad and A/B shapes are **visual decoration**. Actual touch controls come from EmulatorJS's built-in overlay, rendered within the game screen. Do not confuse these with interactive controls.
+- No real link cable, trading, battling or room-code backend is included. Such a feature requires original-protocol link emulation and verified synchronisation, not merely matchmaking.
+- This package includes no ROMs, copyrighted console skins, proprietary BIOS, or emulator core binaries.
+- EmulatorJS is a third-party open-source project. Review its licensing before redistribution or bundling cores.
 
-## Important
-This is an integration prototype. Runtime performance, audio, game save reliability and console compatibility must be validated on target devices with legal test ROMs. The `stable` CDN may update; pin and self-host a tested engine version before production. No ROMs, BIOS or Pokémon assets included. Game files and emulation assets can be large. Back up saves frequently. EmulatorJS and its cores have their own licenses; review before commercial use.
+## First test
+Import a legally obtained `.gba` game. Press **Start game + sound**. Wait for the emulator to load. If black, open **Diagnostics & sound help** and send the message along with the Cloudflare URL. Test the emulator's own touch controls, sound, in-game save, restart, and save export before relying on it.
