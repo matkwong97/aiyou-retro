@@ -1,7 +1,0 @@
-(()=>{const exit=document.getElementById('exit'),speed=document.getElementById('speed'),hint=document.getElementById('speed-hint');let rate=1;
-exit.addEventListener('click',()=>{if(confirm('Return to library? Save your progress in-game first.'))location.href='index.html'});
-function manager(){return window.EJS_emulator?.gameManager||null}
-function apply(next){const gm=manager();if(!gm||typeof gm.toggleFastForward!=='function'||typeof gm.setFastForwardRatio!=='function'){hint.textContent='Speed control not supported by this emulator session';return false}try{if(next===1){gm.toggleFastForward(0)}else{gm.setFastForwardRatio(next);gm.toggleFastForward(1)}rate=next;speed.textContent='Speed '+rate+'×';speed.setAttribute('aria-label','Game speed '+rate+' times; tap to change');hint.textContent=rate===1?'Normal speed':'Fast-forward enabled';return true}catch(e){hint.textContent='Speed change failed: '+e.message;return false}}
-speed.addEventListener('click',()=>apply(rate===3?1:rate+1));
-const watch=setInterval(()=>{const gm=manager();if(gm&&typeof gm.toggleFastForward==='function'&&typeof gm.setFastForwardRatio==='function'){speed.disabled=false;hint.textContent='Tap for 1× → 2× → 3×';clearInterval(watch)}},500);setTimeout(()=>clearInterval(watch),120000);
-})();
