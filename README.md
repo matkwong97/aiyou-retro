@@ -1,24 +1,28 @@
-# AIYOU! Retro v1.4 — Play Experience Update
+# AIYOU! Retro v1.5 — Gameplay & UI repair
 
-Deploy the contents of this directory to the root of your existing GitHub repository connected to Cloudflare Pages. No build command; output directory `.`.
+Static site for GitHub + Cloudflare Pages. Upload **all files in this archive to the repository root**. Framework: None. Build command: blank. Output directory: `.`.
 
-## New
-- Explicit **Exit game** button, separate from in-game Start and Select. Exiting does not automatically save progress.
-- Speed button cycles 1× → 2× → 3× using EmulatorJS `gameManager` APIs; enabled only when the emulator exposes them. Actual speed may vary with device performance.
-- Last played shows the 3 most recently launched ROMs.
-- Library is collapsed by default and grouped by GB/GBC, GBA, and DS.
-- Existing IndexedDB database name and ROM IDs remain unchanged.
+## Included
+- GB/GBC, GBA and DS ROM import, library grouped by system, last three played, collapsed library (retained from v1.4).
+- Authentic console-inspired and fullscreen player modes with **one** interactive controller: the EmulatorJS built-in controller.
+- EmulatorJS audio and native save-state/save-file menus.
+- Quick Save/Load buttons enabled only if a compatible gameManager API is detected; quick saves are tab-session-only, not durable backups.
+- 1x/2x/3x speed request when the emulator runtime supports it. Actual performance varies.
+- Startup diagnostics and no false claim that a ROM is running before the runtime callback.
 
-## Test on iPhone
-1. Open existing site after deployment and refresh.
-2. Confirm My library starts collapsed; expand and inspect groups.
-3. Launch a game; return via Exit game; check Continue playing.
-4. Start game in emulator; test Speed 1× → 2× → 3× → 1×.
-5. Test sound and in-game save, then reopen. Back up saves before extensive play.
+## Honest limitations
+**Traditional link cable trading and battling are NOT implemented.** A room-code interface without protocol-level synchronisation would be misleading. GBC/GBA trading requires a dedicated compatible link-emulation implementation and tests on real games.
 
-## Limitations
-- Game Start/Select are **in-game controls**; they do not exit emulation.
-- The emulator retains its own virtual controller; no duplicate decorative controller.
-- No working GBC/GBA link multiplayer yet.
-- The emulator engine downloads from EmulatorJS CDN.
-- This build has not been end-to-end tested on iOS Safari.
+**Not verified on iPhone Safari.** The emulator core loads from `https://cdn.emulatorjs.org/stable/data/`; a network connection is required at first load. External CDN or browser compatibility may still prevent gameplay.
+
+**Quick Save is sessionStorage-only**, and can be disabled by the engine or browser; use in-game saves and native save-state export for durable progress.
+
+## Updating
+Keep the same Cloudflare Pages project and GitHub repository. Delete obsolete `player.js`, `player-v13.css`, `ux-v14.js`, `console.css` if present. Upload new `player-v15.js`, `player-v15.css`, `play.html` and all remaining archive files to root. Commit main; Cloudflare auto-deploys. Use a private/test ROM and back up all saves first.
+
+## Testing checklist
+1. Load a small legally obtained GB/GBC ROM; verify video/audio/controls.
+2. Load GBA game and verify native on-screen controller, no duplicate decorative controls.
+3. Try both display modes, speed toggle, quick state (if enabled), in-game save and restart.
+4. Test DS screen and touchscreen.
+5. Record exact diagnostic messages on any failure.
