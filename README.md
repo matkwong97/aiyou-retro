@@ -1,22 +1,24 @@
-# AIYOU! Retro v1.2 — Console UI and Startup Diagnostics
+# AIYOU! Retro v1.4 — Play Experience Update
 
-## Deployment (Cloudflare Pages via GitHub)
+Deploy the contents of this directory to the root of your existing GitHub repository connected to Cloudflare Pages. No build command; output directory `.`.
 
-This is a static website. Unzip and upload ALL files to the **root** of your existing GitHub repository (not a nested folder). Overwrite files with the same names and add `console.css`. Cloudflare Pages automatically redeploys after a commit if connected to GitHub. Pages build settings: Framework **None**, build command **blank**, output directory **`.`**. No D1 database or API key required.
+## New
+- Explicit **Exit game** button, separate from in-game Start and Select. Exiting does not automatically save progress.
+- Speed button cycles 1× → 2× → 3× using EmulatorJS `gameManager` APIs; enabled only when the emulator exposes them. Actual speed may vary with device performance.
+- Last played shows the 3 most recently launched ROMs.
+- Library is collapsed by default and grouped by GB/GBC, GBA, and DS.
+- Existing IndexedDB database name and ROM IDs remain unchanged.
 
-## What is implemented
-- Browser ROM library (GB, GBC, GBA, NDS), retaining original IndexedDB `aiyou-retro-v1` database.
-- Console-inspired AIYOU! styling for GBC/GBA/DS and Fullscreen Play mode.
-- EmulatorJS loader integration, audio activation via a user tap, built-in emulator controls and save tools (where supported by the loaded core).
-- Visible loader diagnostics and retry guidance.
-- Original, non-Pokémon AIYOU! app icon.
+## Test on iPhone
+1. Open existing site after deployment and refresh.
+2. Confirm My library starts collapsed; expand and inspect groups.
+3. Launch a game; return via Exit game; check Continue playing.
+4. Start game in emulator; test Speed 1× → 2× → 3× → 1×.
+5. Test sound and in-game save, then reopen. Back up saves before extensive play.
 
-## Important limitations
-- **NOT VERIFIED:** Gameplay and save persistence on a physical iPhone. The EmulatorJS core is fetched at runtime from its public CDN and can fail because of CDN availability, browser limits, core compatibility or content blockers.
-- The shell D-pad and A/B shapes are **visual decoration**. Actual touch controls come from EmulatorJS's built-in overlay, rendered within the game screen. Do not confuse these with interactive controls.
-- No real link cable, trading, battling or room-code backend is included. Such a feature requires original-protocol link emulation and verified synchronisation, not merely matchmaking.
-- This package includes no ROMs, copyrighted console skins, proprietary BIOS, or emulator core binaries.
-- EmulatorJS is a third-party open-source project. Review its licensing before redistribution or bundling cores.
-
-## First test
-Import a legally obtained `.gba` game. Press **Start game + sound**. Wait for the emulator to load. If black, open **Diagnostics & sound help** and send the message along with the Cloudflare URL. Test the emulator's own touch controls, sound, in-game save, restart, and save export before relying on it.
+## Limitations
+- Game Start/Select are **in-game controls**; they do not exit emulation.
+- The emulator retains its own virtual controller; no duplicate decorative controller.
+- No working GBC/GBA link multiplayer yet.
+- The emulator engine downloads from EmulatorJS CDN.
+- This build has not been end-to-end tested on iOS Safari.
